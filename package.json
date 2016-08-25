@@ -1,0 +1,43 @@
+{
+  "name": "angular-api-transparencia-brasil",
+  "version": "1.0.0",
+  "description": "Angular factory para a API do Portal da Transparência Brasil",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "npm-run-all -p build:sequential",
+    "build:sequential": "npm-run-all -s -c build:concat build:minify",
+    "build:concat": "browserify ./src/index.js -o ./dist/bundle.js -t [ babelify ]",
+    "build:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guiseek/angular-api-transparencia-brasil.git"
+  },
+  "keywords": [
+    "AngularJS",
+    "API",
+    "Transparência",
+    "Brasil"
+  ],
+  "author": "Gui Seek <guiseek@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guiseek/angular-api-transparencia-brasil/issues"
+  },
+  "homepage": "https://github.com/guiseek/angular-api-transparencia-brasil#readme",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "npm-run-all": "^2.3.0",
+    "uglify-js": "^2.7.0",
+    "watchify": "^3.7.0"
+  }
+}

@@ -1,0 +1,51 @@
+<html data-ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular factory para a API do Portal da Transparência Brasil</title>
+  </head>
+  <body data-ng-controller="AppController">
+    <button type="button" data-ng-click="getPartidos()">Partidos</button>
+    <table>
+      <tr ng-repeat="partido in partidos">
+        <td ng-bind="partido.partidoId"></td>
+        <td ng-bind="partido.sigla"></td>
+        <td>
+          <button type="button" ng-click="getCandidatos(partido.partidoId)">Candidatos</button>
+        </td>
+      </tr>
+    </table>
+    <table>
+      <tr ng-repeat="candidato in candidatos">
+        <td ng-bind="candidato.nome"></td>
+        <td ng-bind="candidato.apelido"></td>
+      </tr>
+    </table>
+    <script src="../node_modules/angular/angular.min.js"></script>
+    <script src="../dist/bundle.min.js"></script>
+    <script>
+      angular
+        .module('app', ['ngAPITransparenciaBrasil'])
+        .controller('AppController', ['$scope','APITransparenciaBrasilFactory',function($scope, APITransparenciaBrasilFactory) {
+          APITransparenciaBrasilFactory.init({
+            token: 'vRdqRoxdGSUk'
+          })
+          $scope.getPartidos = function() {
+            APITransparenciaBrasilFactory.getPartidos(function(response) {
+              console.log(response)
+              $scope.partidos = response.data
+            })
+          }
+          $scope.getCandidatos = function(id) {
+            var params = {
+              estado: 'PR',
+              partido: id
+            }
+            APITransparenciaBrasilFactory.getCandidatos(params, function(response) {
+              console.log(response)
+              $scope.candidatos = response.data
+            })
+          }
+        }])
+    </script>
+  </body>
+</html>
