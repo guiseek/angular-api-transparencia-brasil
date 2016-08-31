@@ -1,51 +1,240 @@
 <html data-ng-app="app">
-  <head>
-    <meta charset="utf-8">
-    <title>Angular factory para a API do Portal da Transparência Brasil</title>
-  </head>
-  <body data-ng-controller="AppController">
-    <button type="button" data-ng-click="getPartidos()">Partidos</button>
-    <table>
-      <tr ng-repeat="partido in partidos">
-        <td ng-bind="partido.partidoId"></td>
-        <td ng-bind="partido.sigla"></td>
-        <td>
-          <button type="button" ng-click="getCandidatos(partido.partidoId)">Candidatos</button>
-        </td>
-      </tr>
-    </table>
-    <table>
-      <tr ng-repeat="candidato in candidatos">
-        <td ng-bind="candidato.nome"></td>
-        <td ng-bind="candidato.apelido"></td>
-      </tr>
-    </table>
-    <script src="../node_modules/angular/angular.min.js"></script>
-    <script src="../dist/bundle.min.js"></script>
-    <script>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Angular factory para a API do Portal da Transparência Brasil</title>
+  <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <style>
+    main nav {
+      display: -webkit-flex;
+      display: flex;
+    }
+    
+    main nav div {
+      margin: 15px;
+      flex: 1 1 auto;
+    }
+  </style>
+</head>
+
+<body data-ng-controller="AppController">
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+          aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="#">API Transparência Brasil</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span data-ng-bind="nav.estado.nome || '- Selecione um estado -'"></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#" ng-repeat="item in estados" ng-model="nav.estado" data-ng-bind="item.nome" data-ng-click="changeState(item)"></a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span data-ng-bind="nav.partido.sigla || '- Selecione um partido -'"></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#" ng-repeat="item in partidos" ng-model="nav.partido" data-ng-bind="item.sigla" data-ng-click="changeeEtourage(item)"></a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span data-ng-bind="nav.cargo.nome || '- Selecione um cargo -'"></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#" ng-repeat="item in cargos" ng-model="nav.cargo" data-ng-bind="item.nome" data-ng-click="changeeOffice(item)"></a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" data-ng-click="getCandidatos(busca)">Busca</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+  <main class="container">
+    <div>
+      <h1>Candidatos</h1>
+      <p ng-show="loading.candidatos">Loading...</p>
+      <p ng-show="candidatos.length == 0">Nenhum resultado</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Nome</td>
+            <td>Aplido</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="candidato in candidatos">
+            <td ng-bind="candidato.nome"></td>
+            <td ng-bind="candidato.apelido"></td>
+            <td>
+              <button type="button" ng-click="getBens(candidato.id)">Bens</button>
+              <button type="button" ng-click="getDoadores(candidato.id)">Doadores</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div ng-show="candidato.bens">
+      <h1>Bens</h1>
+      <p ng-show="loading.bens">Loading...</p>
+      <p ng-show="candidato.bens.length == 0">Nenhum resultado</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Nome</td>
+            <td>Aplido</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="bem in candidato.bens">
+            <td ng-bind="bem.ano"></td>
+            <td ng-bind="bem.bem"></td>
+            <td ng-bind="bem.montante"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div ng-show="candidato.doadores">
+      <h1>Doadores</h1>
+      <p ng-show="loading.doadores">Loading...</p>
+      <p ng-show="candidato.doadores.length == 0">Nenhum resultado</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Nome</td>
+            <td>Aplido</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="doador in candidato.doadores">
+            <td ng-bind="doador.nome"></td>
+            <td ng-bind="doador.cgc"></td>
+            <td ng-bind="doador.montante"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../node_modules/angular/angular.min.js"></script>
+  <script src="../dist/bundle.min.js"></script>
+  <script>
       angular
         .module('app', ['ngAPITransparenciaBrasil'])
         .controller('AppController', ['$scope','APITransparenciaBrasilFactory',function($scope, APITransparenciaBrasilFactory) {
           APITransparenciaBrasilFactory.init({
             token: 'vRdqRoxdGSUk'
           })
+          $scope.busca = {}
+          $scope.loading = {}
+          $scope.getEstados = function() {
+            $scope.loading.estados = true
+            APITransparenciaBrasilFactory.getEstados(function(response) {
+              $scope.loading.estados = false
+              $scope.estados = response.data
+            })
+          }
           $scope.getPartidos = function() {
+            $scope.loading.partidos = true
             APITransparenciaBrasilFactory.getPartidos(function(response) {
-              console.log(response)
+              $scope.loading.partidos = false
               $scope.partidos = response.data
             })
           }
-          $scope.getCandidatos = function(id) {
-            var params = {
-              estado: 'PR',
-              partido: id
-            }
+          $scope.getCargos = function() {
+            $scope.loading.cargos = true
+            APITransparenciaBrasilFactory.getCargos(function(response) {
+              $scope.loading.cargos = false
+              $scope.cargos = response.data
+            })
+          }
+          $scope.getEstados()
+          $scope.getPartidos()
+          $scope.getCargos()
+          $scope.getCandidatos = function(params) {
+            $scope.loading.candidatos = true
+            var params = angular.copy(params) || {}
+            console.log(params)
             APITransparenciaBrasilFactory.getCandidatos(params, function(response) {
+              $scope.loading.candidatos = false
               console.log(response)
               $scope.candidatos = response.data
             })
           }
+          $scope.getBens = function(id) {
+            $scope.loading.bens = true
+            $scope.candidato = {}
+            APITransparenciaBrasilFactory.getCandidato(id, '/bens', function(response) {
+              $scope.loading.bens = false
+              console.log(response.data)
+              $scope.candidato.bens = response.data
+            })
+          }
+          $scope.getDoadores = function(id) {
+            $scope.loading.doadores = true
+            $scope.candidato = {}
+            APITransparenciaBrasilFactory.getCandidato(id, '/doadores', function(response) {
+              $scope.loading.doadores = false
+              $scope.candidato.doadores = response.data
+            })
+          }
+          $scope.nav = {}
+          $scope.changeState = function(item) {
+            console.log(item)
+            $scope.nav.estado = item
+            $scope.busca.estado = item.sigla
+          }
+          $scope.changeeEtourage = function(item) {
+            console.log(item)
+            $scope.nav.partido = item
+            $scope.busca.partido = item.partidoId
+          }
+          $scope.changeeOffice = function(item) {
+            console.log(item)
+            $scope.nav.cargo = item            
+            $scope.busca.cargo = item.cargoId
+          }
         }])
     </script>
-  </body>
+</body>
+
 </html>

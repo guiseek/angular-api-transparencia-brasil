@@ -17,6 +17,7 @@ var APITransparenciaBrasilFactory = function () {
 
     this.hostname = 'http://api.transparencia.org.br/api/';
     this.resource = null;
+    this.empty = {};
     this.options = {
       version: 'v1/',
       token: null
@@ -65,7 +66,6 @@ var APITransparenciaBrasilFactory = function () {
     key: 'init',
     value: function init(options) {
       this.options = angular.extend(this.options, options);
-      console.log(this.options);
       if (!options.token) {
         throw new Error('APITransparenciaBrasilFactory: token não informado');
       }
@@ -80,16 +80,35 @@ var APITransparenciaBrasilFactory = function () {
       return this.addCallbackToPromise(deferred, callback);
     }
   }, {
+    key: 'getEstados',
+    value: function getEstados(callback) {
+      this.resource = 'estados';
+      this.api(this.empty, callback);
+    }
+  }, {
     key: 'getPartidos',
     value: function getPartidos(callback) {
       this.resource = 'partidos';
-      this.api({}, callback);
+      this.api(this.empty, callback);
+    }
+  }, {
+    key: 'getCargos',
+    value: function getCargos(callback) {
+      this.resource = 'cargos';
+      this.api(this.empty, callback);
     }
   }, {
     key: 'getCandidatos',
     value: function getCandidatos(params, callback) {
       this.resource = 'candidatos';
       this.api(params, callback);
+    }
+  }, {
+    key: 'getCandidato',
+    value: function getCandidato(id, route, callback) {
+      route = route || null;
+      this.resource = 'candidatos/' + id + route;
+      this.api(this.empty, callback);
     }
   }], [{
     key: 'factory',

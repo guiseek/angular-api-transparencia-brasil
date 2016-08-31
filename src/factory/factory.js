@@ -2,6 +2,7 @@ class APITransparenciaBrasilFactory {
   constructor($http, $q) {
     this.hostname = 'http://api.transparencia.org.br/api/'
     this.resource = null
+    this.empty = {}
     this.options = {
       version: 'v1/',
       token: null
@@ -41,7 +42,6 @@ class APITransparenciaBrasilFactory {
   }
   init(options) {
     this.options = angular.extend(this.options, options)
-    console.log(this.options)
     if (!options.token) {
       throw new Error('APITransparenciaBrasilFactory: token não informado')
     }
@@ -58,13 +58,26 @@ class APITransparenciaBrasilFactory {
     )
     return this.addCallbackToPromise(deferred, callback)
   }
+  getEstados(callback) {
+    this.resource = 'estados'
+    this.api(this.empty, callback)
+  }
   getPartidos(callback) {
     this.resource = 'partidos'
-    this.api({}, callback)
+    this.api(this.empty, callback)
+  }
+  getCargos(callback) {
+    this.resource = 'cargos'
+    this.api(this.empty, callback)
   }
   getCandidatos(params, callback) {
     this.resource = 'candidatos'
     this.api(params, callback)
+  }
+  getCandidato(id, route, callback) {
+    route = route || null
+    this.resource = 'candidatos/' + id + route
+    this.api(this.empty, callback)
   }
   static factory($http, $q) {
     return new APITransparenciaBrasilFactory($http, $q)

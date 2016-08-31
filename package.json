@@ -39,5 +39,9 @@
     "npm-run-all": "^2.3.0",
     "uglify-js": "^2.7.0",
     "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7"
   }
 }
