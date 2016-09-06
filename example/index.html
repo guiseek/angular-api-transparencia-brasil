@@ -144,6 +144,12 @@
                   <td ng-bind="bem.montante | currency : 'R$ ' : 2"></td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2" class="text-right">Total:</td>
+                  <td ng-bind="candidato.montante | currency : 'R$ ' : 2"></td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>
@@ -171,6 +177,12 @@
                   <td ng-bind="doador.montante | currency : 'R$ ' : 2"></td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2" class="text-right">Total:</td>
+                  <td ng-bind="candidato.montante | currency : 'R$ ' : 2"></td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>
@@ -199,14 +211,14 @@
               </thead>
               <tbody>
                 <tr ng-repeat="estatistica in candidato.estatisticas">
-                  <td ng-bind="estatistica.faltas_plen"></td>
-                  <td ng-bind="estatistica.media_plen"></td>
-                  <td ng-bind="estatistica.faltas_com"></td>
-                  <td ng-bind="estatistica.media_com"></td>
-                  <td ng-bind="estatistica.evol"></td>
-                  <td ng-bind="estatistica.ano_ref"></td>
+                  <td ng-bind="estatistica.faltasPlenario"></td>
+                  <td ng-bind="estatistica.mediaPlenario"></td>
+                  <td ng-bind="estatistica.faltasComissoes"></td>
+                  <td ng-bind="estatistica.mediaComissoes"></td>
+                  <td ng-bind="estatistica.evolucao"></td>
+                  <td ng-bind="estatistica.anoRef"></td>
                   <td ng-bind="estatistica.emendas"></td>
-                  <td ng-bind="estatistica.media_emendas"></td>
+                  <td ng-bind="estatistica.mediaEmendas"></td>
                 </tr>
               </tbody>
             </table>
@@ -243,10 +255,17 @@
                   <td ng-bind="candidatura.municipio"></td>
                   <td ng-bind="candidatura.estadoSigla"></td>
                   <td ng-bind="candidatura.resultado"></td>
-                  <td ng-bind="candidatura.votosObtidos"></td>
+                  <td ng-bind="candidatura.votosObtidos | number"></td>
                   <td ng-bind="candidatura.recursosFinanceiros | currency : 'R$ ' : 2"></td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6" class="text-right">Total:</td>
+                  <td ng-bind="candidato.votosObtidos | number"></td>
+                  <td ng-bind="candidato.recursosFinanceiros | currency : 'R$ ' : 2"></td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>

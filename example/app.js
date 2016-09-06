@@ -41,11 +41,17 @@ angular
         $scope.candidatos = response.data
       })
     }
+    var sum = function(data, field) {
+      return data.reduce(function(p, c) {
+        return (c[field] != null) ? p + parseFloat(c[field]) : 0; 
+      }, 0);
+    }
     $scope.getBens = function (id) {
       $scope.loading.bens = true
       $scope.candidato = {}
       APITransparenciaBrasilFactory.getCandidato(id, '/bens', function (response) {
         $scope.loading.bens = false
+        $scope.candidato.montante = sum(response.data, 'montante');
         $scope.candidato.bens = response.data
       })
     }
@@ -54,6 +60,7 @@ angular
       $scope.candidato = {}
       APITransparenciaBrasilFactory.getCandidato(id, '/doadores', function (response) {
         $scope.loading.doadores = false
+        $scope.candidato.montante = sum(response.data, 'montante');
         $scope.candidato.doadores = response.data
       })
     }
@@ -70,6 +77,8 @@ angular
       $scope.candidato = {}
       APITransparenciaBrasilFactory.getCandidato(id, '/candidaturas', function (response) {
         $scope.loading.candidaturas = false
+        $scope.candidato.votosObtidos = sum(response.data, 'votosObtidos');
+        $scope.candidato.recursosFinanceiros = sum(response.data, 'recursosFinanceiros');
         $scope.candidato.candidaturas = response.data
       })
     }
