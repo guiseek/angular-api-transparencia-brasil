@@ -3,7 +3,7 @@ Acesso a API do Portal da Transparência Brasil para AngularJS
 
 ## Example
 
-[View example](./examples/index.html)
+[View example](./example/index.html)
 
 ### Config
 ```javascript
