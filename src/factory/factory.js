@@ -1,5 +1,5 @@
 class APITransparenciaBrasilFactory {
-  constructor($http, $q) {
+  constructor($http) {
     this.hostname = 'http://api.transparencia.org.br/api/'
     this.resource = null
     this.empty = {}
@@ -13,7 +13,6 @@ class APITransparenciaBrasilFactory {
       this[name] = angular.bind(this, this.getSetOption, name)
     })
     this.$http = $http
-    this.$q = $q
     this.config = {
       headers: {'App-Token': this.options.token},
       params: null
@@ -25,13 +24,6 @@ class APITransparenciaBrasilFactory {
     }
     this.options[name] = val
     return this
-  }
-  handleResponse(response) {
-    if (!response || response.error) {
-      this.reject(response && response.error || false)
-    } else {
-      this.resolve(response)
-    }
   }
   addCallbackToPromise(deferred, callback) {
     let promise = deferred
@@ -79,11 +71,11 @@ class APITransparenciaBrasilFactory {
     this.resource = 'candidatos/' + id + route
     this.api(this.empty, callback)
   }
-  static factory($http, $q) {
-    return new APITransparenciaBrasilFactory($http, $q)
+  static factory($http) {
+    return new APITransparenciaBrasilFactory($http)
   }
 }
 
-APITransparenciaBrasilFactory.factory.$inject = ['$http', '$q']
+APITransparenciaBrasilFactory.factory.$inject = ['$http']
 
 export default APITransparenciaBrasilFactory

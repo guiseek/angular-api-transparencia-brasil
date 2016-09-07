@@ -1,15 +1,15 @@
 # angular-api-transparencia-brasil
 Acesso a API do Portal da Transparência Brasil para AngularJS
 
-## Example
+## Demo
 
-[View example](./example/index.html)
+[View demo](./)
 
 ### Config
 ```javascript
 angular
   .module('AppController', ['ngAPITransparenciaBrasil'])
-  .controller('AppController', ['$scope','APITransparenciaBrasilFactory',function($scope,FacebookFactory) {
+  .controller('AppController', ['$scope','APITransparenciaBrasilFactory',function($scope,APITransparenciaBrasilFactory) {
     APITransparenciaBrasilFactory.init({
       token: 'vRdqRoxdGSUk'
     })
@@ -20,7 +20,7 @@ angular
 ```javascript
 angular
   .module('AppController')
-  .controller('AppController', ['$scope','FacebookFactory',function($scope,APITransparenciaBrasilFactory) {
+  .controller('AppController', ['$scope','APITransparenciaBrasilFactory',function($scope,APITransparenciaBrasilFactory) {
     $scope.busca = {}
     $scope.loading = {}
     $scope.getEstados = function () {

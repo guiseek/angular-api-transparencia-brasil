@@ -10,7 +10,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var APITransparenciaBrasilFactory = function () {
-  function APITransparenciaBrasilFactory($http, $q) {
+  function APITransparenciaBrasilFactory($http) {
     var _this = this;
 
     _classCallCheck(this, APITransparenciaBrasilFactory);
@@ -28,7 +28,6 @@ var APITransparenciaBrasilFactory = function () {
       _this[name] = angular.bind(_this, _this.getSetOption, name);
     });
     this.$http = $http;
-    this.$q = $q;
     this.config = {
       headers: { 'App-Token': this.options.token },
       params: null
@@ -43,15 +42,6 @@ var APITransparenciaBrasilFactory = function () {
       }
       this.options[name] = val;
       return this;
-    }
-  }, {
-    key: 'handleResponse',
-    value: function handleResponse(response) {
-      if (!response || response.error) {
-        this.reject(response && response.error || false);
-      } else {
-        this.resolve(response);
-      }
     }
   }, {
     key: 'addCallbackToPromise',
@@ -112,15 +102,15 @@ var APITransparenciaBrasilFactory = function () {
     }
   }], [{
     key: 'factory',
-    value: function factory($http, $q) {
-      return new APITransparenciaBrasilFactory($http, $q);
+    value: function factory($http) {
+      return new APITransparenciaBrasilFactory($http);
     }
   }]);
 
   return APITransparenciaBrasilFactory;
 }();
 
-APITransparenciaBrasilFactory.factory.$inject = ['$http', '$q'];
+APITransparenciaBrasilFactory.factory.$inject = ['$http'];
 
 exports.default = APITransparenciaBrasilFactory;
 
