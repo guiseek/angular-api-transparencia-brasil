@@ -3,7 +3,7 @@ Acesso a API do Portal da Transparência Brasil para AngularJS
 
 ## Demo
 
-[View demo](./)
+[View demo](http://guiseek.js.org/angular-api-transparencia-brasil/)
 
 ### Config
 ```javascript

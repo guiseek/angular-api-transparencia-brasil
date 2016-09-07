@@ -1,6 +1,6 @@
 {
   "name": "angular-api-transparencia-brasil",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Angular factory para a API do Portal da Transparência Brasil",
   "main": "./src/index.js",
   "scripts": {
